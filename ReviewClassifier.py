@@ -11,6 +11,9 @@ import numpy as np
 import time
 from PIL import Image
 import keras
+import pickle
+from pickle import load
+from pickle import dump
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.layers import Embedding, LSTM, Dense
@@ -29,11 +32,11 @@ html_temp = """
     """
 st.markdown(html_temp, unsafe_allow_html=True)
 st.image('main.jpg')
+model =load(open('classify.sav', 'rb'))
 tokenizer = Tokenizer(num_words=10000)
-with open('tokenizer.pkl', 'rb') as f:
-    tokenizer = joblib.load(f)
 
-model=joblib.load("Hotel_Reviews.joblib")
+with open('tokenizer.pkl', 'rb') as f:
+    tokenizer = load(f)
 
 def predict_sentiment(review):
     sequences = tokenizer.texts_to_sequences([review])
